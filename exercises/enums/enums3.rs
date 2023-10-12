@@ -5,7 +5,7 @@
 // Execute `rustlings hint enums3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+
 
 enum Message {
     // TODO: implement the message variant types based on their usage below
@@ -51,7 +51,7 @@ impl State {
         self.position = Point{x:10, y:15};
         self.quit = true;
         //self.message = String::from("Hello world!");
-        self.message = "Hello world!".to_string();
+        self.message = "hello world".to_string();
     }
 }
 
