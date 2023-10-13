@@ -9,7 +9,7 @@
 // Execute `rustlings hint errors6` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+
 
 use std::num::ParseIntError;
 
@@ -25,14 +25,29 @@ impl ParsePosNonzeroError {
         ParsePosNonzeroError::Creation(err)
     }
     // TODO: add another error conversion function here.
-    // fn from_parseint...
+     fn from_parseint(err: ParseIntError) -> ParsePosNonzeroError{
+        ParsePosNonzeroError::ParseInt(err)
+     }
 }
 
 fn parse_pos_nonzero(s: &str) -> Result<PositiveNonzeroInteger, ParsePosNonzeroError> {
     // TODO: change this to return an appropriate error instead of panicking
     // when `parse()` returns an error.
-    let x: i64 = s.parse().unwrap();
+    let x: i64 = s.parse().map_err(ParsePosNonzeroError::from_parseint)?;
     PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)
+    /*
+
+        这段 Rust 代码中的 `s.parse().map_err(ParsePosNonzeroError::from_parseint)?` 
+    表示将字符串 `s` 解析为一个 `i64` 类型的值，并将解析错误转换为一个自定义的 `ParsePosNonzeroError` 类型。
+    如果解析成功，则返回一个包含解析后的值的 `Ok` 变体；否则，返回一个包含错误信息的 `Err` 变体。
+    在这个例子中，我们使用了 `?` 运算符来处理解析错误。如果解析失败，则会立即返回一个包含错误信息的 `Err` 变体。
+
+        另外，`PositiveNonzeroInteger::new(x).map_err(ParsePosNonzeroError::from_creation)` 表示
+    创建一个新的 `PositiveNonzeroInteger` 实例，并将输入值转换为该类型。
+    如果输入值为负数或零，则返回一个包含错误信息的 `Err` 变体；
+    否则，返回一个包含新实例的 `Ok` 变体。
+
+    */
 }
 
 // Don't change anything below this line.
