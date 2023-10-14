@@ -10,12 +10,16 @@
 // Execute `rustlings hint tests1` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 #[cfg(test)]
 mod tests {
     #[test]
     fn you_can_assert() {
-        assert!();
+        /*
+        //assert!(); 编译通过，差点以为这样就可以了，于是去问了一下智峰他们才发现不是注释
+        于是开始写值
+        assert!(0); 报错：不是布尔类型
+        */
+        assert!(true);
     }
 }
