@@ -18,7 +18,24 @@
 //
 // Execute `rustlings hint box1` or use the `hint` watch subcommand for a hint.
 
+/*
 
+use::std::ops::Deref;
+
+fn hello(name: &str){
+    println!("Hello, {}", name);
+}
+
+main:
+    let m = MyBox::new(String::from("Rust"));
+
+    //&m &MyNox<String>
+    //deref &String
+    //deref &str
+    hello(&m);
+    hello(&(*m)[..]);
+    hello("Rust");
+*/
 
 #[derive(PartialEq, Debug)]
 pub enum List {
