@@ -32,9 +32,9 @@ pub fn capitalize_first(input: &str) -> String {
 pub fn capitalize_words_vector(words: &[&str]) -> Vec<String> {
     words.iter().map(|word| capitalize_first(word)).collect()
     /*
-    我们使用 iter() 方法来创建一个字符串切片的迭代器。然后，
-    我们使用 map() 方法将 capitalize_first() 函数应用于每个元素。
-    最后，我们使用 collect() 方法将结果收集到一个新的向量中。
+        我们使用 iter() 方法来创建一个字符串切片的迭代器。然后，
+        我们使用 map() 方法将 capitalize_first() 函数应用于每个元素。
+        最后，我们使用 collect() 方法将结果收集到一个新的向量中。
     */
 }
 
