@@ -3,7 +3,15 @@
 // Execute `rustlings hint threads3` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
+/*
+报错：
+    29 - move occurs because `tx` has type `Sender<u32>`, which does not implement the `Copy` trait
+                (之所以发生移动，是因为“tx”具有类型“Sender＜u32＞”，该类型不实现“Copy”特性)
+    send_tx里由于在闭包中使用了已移动的值，导致报错
+
+*/
+
+
 
 use std::sync::mpsc;
 use std::sync::Arc;
@@ -31,6 +39,8 @@ fn send_tx(q: Queue, tx: mpsc::Sender<u32>) -> () {
     let qc1 = Arc::clone(&qc);
     let qc2 = Arc::clone(&qc);
 
+    let tx_clone = tx.clone();
+
     thread::spawn(move || {
         for val in &qc1.first_half {
             println!("sending {:?}", val);
@@ -42,7 +52,7 @@ fn send_tx(q: Queue, tx: mpsc::Sender<u32>) -> () {
     thread::spawn(move || {
         for val in &qc2.second_half {
             println!("sending {:?}", val);
-            tx.send(*val).unwrap();
+            tx_clone.send(*val).unwrap();
             thread::sleep(Duration::from_secs(1));
         }
     });
@@ -59,6 +69,9 @@ fn main() {
     for received in rx {
         println!("Got: {}", received);
         total_received += 1;
+        if total_received == queue_length{
+            break;
+        }
     }
 
     println!("total numbers received: {}", total_received);
