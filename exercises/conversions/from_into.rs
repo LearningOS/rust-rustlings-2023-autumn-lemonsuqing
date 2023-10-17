@@ -40,10 +40,38 @@ impl Default for Person {
 // If while parsing the age, something goes wrong, then return the default of
 // Person Otherwise, then return an instantiated Person object with the results
 
-// I AM NOT DONE
+/*
+    使用逗号分隔符将字符串分割成两个部分：姓名和年龄。如果分割后的数组长度不为2，则返回一个默认的Person对象。
+    否则，我们将姓名和年龄转换为相应的类型，并使用它们创建一个新的Person对象。
+    如果姓名为空，则返回一个默认的Person对象。否则，我们将新创建的Person对象返回。
+*/
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        let (name,age) = match s.split_once(',') {
+            Some((name, age)) => ((name.trim(), age.trim())),
+            /*
+            在Rust中，Option类型是一种用于处理可能为空的值的枚举类型。
+            它提供了一种安全且优雅的方式来处理可能存在或不存在的值，避免了空指针异常的问题。
+            Option可以用来解决很多问题，比如判断一个值是否为空，避免空指针引用等。
+            在Rust中，Option类型有两个变量：None，表明失败或缺少值；
+            Some(value)，元组结构体，封装了一个T类型的值value。
+            因此，在使用Option类型时，我们需要使用Some(value)来表示存在的值，使用None来表示不存在的值。
+            */
+            _ => return Person::default(),
+            //default()函数是一个Rust语言中的方法，用于创建一个类型的默认值。
+        };
+    
+    if let Ok(age) = age.parse::<usize>(){
+        if name.len() > 0{
+            return Person {
+                name: String::from(name),
+                age,
+            }
+        }
+    }
+
+    Person::default()
     }
 }
 

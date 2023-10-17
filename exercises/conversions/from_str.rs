@@ -31,7 +31,7 @@ enum ParsePersonError {
     ParseInt(ParseIntError),
 }
 
-// I AM NOT DONE
+
 
 // Steps:
 // 1. If the length of the provided string is 0, an error should be returned
@@ -52,6 +52,36 @@ enum ParsePersonError {
 impl FromStr for Person {
     type Err = ParsePersonError;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        if s.is_empty() {
+            return Err(ParsePersonError::Empty);
+        }
+
+        let splitted_item = s.split(',').collect::<Vec<&str>>();
+        /*使用collect()方法将这些子字符串收集到一个Vec中。在这个实现中，我们使用::<&str>语法来指定Vec的类型参数，以便Rust可以推断出正确的类型。*/
+        let (name, age) = match &splitted_item[..] {
+        /*
+            使用了模式匹配来解构&splitted_item[..]数组。
+            如果数组的长度为2，我们将姓名和年龄转换为相应的类型，并使用它们创建一个新的Person对象。
+            否则，我们返回一个ParsePersonError::BadLen错误。
+            由于我们已经使用模式匹配来确保数组的长度为2，
+            因此我们不需要再使用Some()和None()来表示存在和不存在的值。
+            相反，我们可以直接使用元组来存储姓名和年龄，并将它们传递给新创建的Person对象。
+        */
+            [name, age] => (
+                name.to_string(),
+                age.parse().map_err(ParsePersonError::ParseInt)?,
+            ),
+            _ => return Err(ParsePersonError::BadLen),
+        };
+
+        if name.is_empty() {
+            return Err(ParsePersonError::NoName);
+        }
+
+        Ok(Person {
+            name: name.into(),
+            age,
+        })
     }
 }
 
